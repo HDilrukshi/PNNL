@@ -11,18 +11,18 @@ library(fitdistrplus)
 source("gammamixEMnew.R")
 Hoben <- read.table("Hoben.txt",header=T)
 
-#first time look
+#Ratio between First time look
 x1 <- Hoben[,15]/Hoben[,4] #Produces results in favor of fixed alpha
 x1a=x1^1/3
 
-#Second time look
+#Ratio between Second time look
 x2 <- Hoben[,16]/Hoben[,5]
 
 
-#Third time look
+#Ratio between Third time look
 x3 <- Hoben[,17]/Hoben[,6]
 
-#Fourth time look
+#Ratio between Fourth time look
 x4 <- Hoben[,18]/Hoben[,7]
 
 v1=cbind(x1,x2)
