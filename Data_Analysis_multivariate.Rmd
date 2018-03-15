@@ -1,0 +1,906 @@
+---
+title: "Hoben Data"
+output: word_document
+always_allow_html: yes
+---
+
+
+```{r,include=FALSE}
+setwd("/Users/Dil/Documents/Fall_2017/Research/psyco project")
+
+library(mixtools)
+library(fitdistrplus)
+source("gammamixEMnew.R")
+Hoben <- read.table("Hoben.txt",header=T)
+
+#*******ratio between the second trial(age x+ of the kid) and the first trial(age x of the kid is considered*********#
+
+#first time look
+x1 <- Hoben[,15]/Hoben[,4] #Produces results in favor of fixed alpha
+x1a=x1^1/3
+
+#Second time look
+x2 <- Hoben[,16]/Hoben[,5]
+
+
+#Third time look
+x3 <- Hoben[,17]/Hoben[,6]
+
+#Fourth time look
+x4 <- Hoben[,18]/Hoben[,7]
+
+v1=cbind(x1,x2)
+R1=v1^1/3
+
+v2=cbind(x1,x2,x3)
+R2=v2^1/3
+
+v3=cbind(x1,x2,x3,x4)
+R3=v3^1/3
+
+BIC=function(ll,n,npar) -2*ll+log(n)*npar
+```
+## Bivariate normal for R1 and R2
+```{r,include=FALSE}
+#k=1(one componant bivariate normal)
+library(mvtnorm)
+v1.sigma=cov(cr_v1)
+v1.mu=cbind(mean(cr_v1[,1]),mean(cr_v1[,2]))
+
+v1.tmp = mvtnorm::dmvnorm(cr_v1,v1.mu,v1.sigma,log=T)
+v1.k1.loglik=sum(v1.tmp)
+v1.k1.BIC=BIC(v1.k1.loglik,98,5)
+
+
+```
+Expected Values 
+```{r,echo=FALSE}
+v1.mu
+```
+Variance-Covariance 
+```{r,echo=FALSE}
+v1.sigma
+```
+###Log Likelihhod
+```{r,echo=FALSE}
+v1.k1.loglik
+```
+###BIC
+```{r,echo=FALSE}
+v1.k1.BIC
+```
+## Two component bivariate normal for R1 and R2
+
+```{r,include=FALSE}
+#k=2 (Two componant bivariate normal)
+set.seed(12)
+out.cr_v1.k2=mvnormalmixEM(cr_v1, lambda = NULL, mu = NULL, sigma = NULL, k = 2,
+              arbmean = TRUE, arbvar = TRUE, epsilon = 1e-08, 
+              maxit = 10000, verb = FALSE)
+
+v1.k2.lambda=out.cr_v1.k2[2][[1]]
+v1.k2.mu1=out.cr_v1.k2[3][1][[1]][[1]]
+v1.k2.mu2=out.cr_v1.k2[3][1][[1]][[2]]
+v1.k2.sigma1=out.cr_v1.k2[4][1][[1]][[1]]
+v1.k2.sigma2=out.cr_v1.k2[4][1][[1]][[2]]
+v1.k2.loglik=out.cr_v1.k2[5][[1]]
+v1.k2.BIC=BIC(v1.k2.loglik,98,11)
+
+```
+Mixing Proportions ($\lambda$) 
+```{r,echo=FALSE}
+
+v1.k2.lambda
+```
+###Component 1
+Expected Values 
+```{r,echo=FALSE}
+v1.k2.mu1
+```
+Variance-Covariance 
+```{r,echo=FALSE}
+v1.k2.sigma1
+```
+###Component 2
+Expected Values 
+```{r,echo=FALSE}
+v1.k2.mu2
+```
+Variance-Covariance 
+```{r,echo=FALSE}
+v1.k2.sigma2
+```
+###Log Likelihhod
+```{r,echo=FALSE}
+v1.k2.loglik
+```
+###BIC
+```{r,echo=FALSE}
+v1.k2.BIC
+```
+
+## Three component bivariate normal for R1 and R2
+```{r,include=FALSE}
+#k=3 (Three componant bivariate normal)
+set.seed(13)
+out.cr_v1.k3=mvnormalmixEM(cr_v1, lambda = NULL, mu = NULL, sigma = NULL, k = 3,
+                           arbmean = TRUE, arbvar = TRUE, epsilon = 1e-08, 
+                           maxit = 10000, verb = FALSE)
+
+v1.k3.lambda=out.cr_v1.k3[2][[1]]
+v1.k3.mu1=out.cr_v1.k3[3][1][[1]][[1]]
+v1.k3.mu2=out.cr_v1.k3[3][1][[1]][[2]]
+v1.k3.mu3=out.cr_v1.k3[3][1][[1]][[3]]
+v1.k3.sigma1=out.cr_v1.k3[4][1][[1]][[1]]
+v1.k3.sigma2=out.cr_v1.k3[4][1][[1]][[2]]
+v1.k3.sigma3=out.cr_v1.k3[4][1][[1]][[3]]
+v1.k3.loglik=out.cr_v1.k3[5][[1]]
+v1.k3.BIC=BIC(v1.k3.loglik,98,17)
+```
+
+Mixing Proportions ($\lambda$) 
+```{r,echo=FALSE}
+
+v1.k3.lambda
+```
+###Component 1
+
+Expected Values 
+```{r,echo=FALSE}
+v1.k3.mu1
+```
+Variance-Covariance 
+```{r,echo=FALSE}
+v1.k3.sigma1
+```
+###Component 2
+Expected Values 
+```{r,echo=FALSE}
+v1.k3.mu2
+```
+Variance-Covariance 
+```{r,echo=FALSE}
+v1.k3.sigma2
+```
+###Component 3
+Expected Values 
+```{r,echo=FALSE}
+v1.k3.mu3
+```
+Variance-Covariance 
+```{r,echo=FALSE}
+v1.k3.sigma3
+```
+###Log Likelihhod
+```{r,echo=FALSE}
+v1.k3.loglik
+```
+###BIC
+```{r,echo=FALSE}
+v1.k3.BIC
+```
+##Four component bivariate normal for R1 and R2
+
+```{r,include=FALSE}
+#k=4 (Four componant bivariate normal)
+set.seed(14)
+out.cr_v1.k4=mvnormalmixEM(cr_v1, lambda = NULL, mu = NULL, sigma = NULL, k = 4,
+                           arbmean = TRUE, arbvar = TRUE, epsilon = 1e-08, 
+                           maxit = 10000, verb = FALSE)
+
+v1.k4.lambda=out.cr_v1.k4[2][[1]]
+v1.k4.mu1=out.cr_v1.k4[3][1][[1]][[1]]
+v1.k4.mu2=out.cr_v1.k4[3][1][[1]][[2]]
+v1.k4.mu3=out.cr_v1.k4[3][1][[1]][[3]]
+v1.k4.mu4=out.cr_v1.k4[3][1][[1]][[4]]
+v1.k4.sigma1=out.cr_v1.k4[4][1][[1]][[1]]
+v1.k4.sigma2=out.cr_v1.k4[4][1][[1]][[2]]
+v1.k4.sigma3=out.cr_v1.k4[4][1][[1]][[3]]
+v1.k4.sigma4=out.cr_v1.k4[4][1][[1]][[4]]
+v1.k4.loglik=out.cr_v1.k4[5][[1]]
+v1.k4.BIC=BIC(v1.k4.loglik,98,23)
+```
+
+Mixing Proportions ($\lambda$) 
+```{r,echo=FALSE}
+
+v1.k4.lambda
+```
+###Component 1
+
+Expected Values 
+```{r,echo=FALSE}
+v1.k4.mu1
+```
+Variance-Covariance 
+```{r,echo=FALSE}
+v1.k4.sigma1
+```
+###Component 2
+Expected Values 
+```{r,echo=FALSE}
+v1.k4.mu2
+```
+Variance-Covariance 
+```{r,echo=FALSE}
+v1.k4.sigma2
+```
+###Component 3
+Expected Values 
+```{r,echo=FALSE}
+v1.k4.mu3
+```
+Variance-Covariance 
+```{r,echo=FALSE}
+v1.k4.sigma3
+```
+###Component 4
+Expected Values 
+```{r,echo=FALSE}
+v1.k4.mu4
+```
+Variance-Covariance 
+```{r,echo=FALSE}
+v1.k4.sigma4
+```
+###Log Likelihhod
+```{r,echo=FALSE}
+v1.k4.loglik
+```
+###BIC
+```{r,echo=FALSE}
+v1.k4.BIC
+```
+## Five component bivariate normal for R1, R2
+```{r,include=FALSE}
+#k=5 (Five componant bivariate normal)
+set.seed(16)
+out.cr_v1.k5=mvnormalmixEM(cr_v1, lambda = NULL, mu = NULL, sigma = NULL, k = 5,
+                           arbmean = TRUE, arbvar = TRUE, epsilon = 1e-08, 
+                           maxit = 10000, verb = FALSE)
+
+v1.k5.lambda=out.cr_v1.k5[2][[1]]
+v1.k5.mu1=out.cr_v1.k5[3][1][[1]][[1]]
+v1.k5.mu2=out.cr_v1.k5[3][1][[1]][[2]]
+v1.k5.mu3=out.cr_v1.k5[3][1][[1]][[3]]
+v1.k5.mu4=out.cr_v1.k5[3][1][[1]][[4]]
+v1.k5.mu5=out.cr_v1.k5[3][1][[1]][[5]]
+v1.k5.sigma1=out.cr_v1.k5[4][1][[1]][[1]]
+v1.k5.sigma2=out.cr_v1.k5[4][1][[1]][[2]]
+v1.k5.sigma3=out.cr_v1.k5[4][1][[1]][[3]]
+v1.k5.sigma4=out.cr_v1.k5[4][1][[1]][[4]]
+v1.k5.sigma5=out.cr_v1.k5[4][1][[1]][[5]]
+v1.k5.loglik=out.cr_v1.k5[5][[1]]
+v1.k5.BIC=BIC(v1.k5.loglik,98,29)
+```
+
+Mixing Proportions ($\lambda$) 
+```{r,echo=FALSE}
+
+v1.k5.lambda
+```
+###Component 1
+
+Expected Values 
+```{r,echo=FALSE}
+v1.k5.mu1
+```
+Variance-Covariance 
+```{r,echo=FALSE}
+v1.k5.sigma1
+```
+###Component 2
+Expected Values 
+```{r,echo=FALSE}
+v1.k5.mu2
+```
+Variance-Covariance 
+```{r,echo=FALSE}
+v1.k5.sigma2
+```
+###Component 3
+Expected Values 
+```{r,echo=FALSE}
+v1.k5.mu3
+```
+Variance-Covariance 
+```{r,echo=FALSE}
+v1.k5.sigma3
+```
+###Component 4
+Expected Values 
+```{r,echo=FALSE}
+v1.k5.mu4
+```
+Variance-Covariance 
+```{r,echo=FALSE}
+v1.k5.sigma4
+```
+###Component 5
+Expected Values 
+```{r,echo=FALSE}
+v1.k5.mu5
+```
+Variance-Covariance 
+```{r,echo=FALSE}
+v1.k5.sigma5
+```
+###Log Likelihhod
+```{r,echo=FALSE}
+v1.k5.loglik
+```
+###BIC
+```{r,echo=FALSE}
+v1.k5.BIC
+```
+## Trivariate normal for R1,R2 and R3
+```{r,include=FALSE}
+#k=1 (One componant trivariate normal)
+library(mvtnorm)
+v2.sigma=cov(cr_v2)
+v2.mu=cbind(mean(cr_v2[,1]),mean(cr_v2[,2]),mean(cr_v2[,3]))
+
+v2.tmp = mvtnorm::dmvnorm(cr_v2,v2.mu,v2.sigma,log=T)
+v2.k1.loglik=sum(v2.tmp)
+v2.k1.BIC=BIC(v2.k1.loglik,98,9)
+```
+Expected Values 
+```{r,echo=FALSE}
+v2.mu
+```
+Variance-Covariance 
+```{r,echo=FALSE}
+v2.sigma
+```
+###Log Likelihhod
+```{r,echo=FALSE}
+v2.k1.loglik
+```
+###BIC
+```{r,echo=FALSE}
+v2.k1.BIC
+```
+
+## Two component trivariate normal for R1, R2 and R3
+
+```{r,include=FALSE}
+ #k=2 (Two componant trivariate normal)
+set.seed(320)
+out.cr_v2.k2=mvnormalmixEM(cr_v2, lambda = NULL, mu = NULL, sigma = NULL, k = 2,
+                           arbmean = TRUE, arbvar = TRUE, epsilon = 1e-08, 
+                           maxit = 10000, verb = FALSE)
+
+v2.k2.lambda=out.cr_v2.k2[2][[1]]
+v2.k2.mu1=out.cr_v2.k2[3][1][[1]][[1]]
+v2.k2.mu2=out.cr_v2.k2[3][1][[1]][[2]]
+v2.k2.sigma1=out.cr_v2.k2[4][1][[1]][[1]]
+v2.k2.sigma2=out.cr_v2.k2[4][1][[1]][[2]]
+v2.k2.loglik=out.cr_v2.k2[5][[1]]
+v2.k2.BIC=BIC(v2.k2.loglik,98,19)
+
+
+```
+Mixing Proportions ($\lambda$) 
+```{r,echo=FALSE}
+
+v2.k2.lambda
+```
+###Component 1
+Expected Values 
+```{r,echo=FALSE}
+v2.k2.mu1
+```
+Variance-Covariance 
+```{r,echo=FALSE}
+v2.k2.sigma1
+```
+###Component 2
+Expected Values 
+```{r,echo=FALSE}
+v2.k2.mu2
+```
+Variance-Covariance 
+```{r,echo=FALSE}
+v2.k2.sigma2
+```
+###Log Likelihhod
+```{r,echo=FALSE}
+v2.k2.loglik
+```
+###BIC
+```{r,echo=FALSE}
+v2.k2.BIC
+```
+## Three component trivariate normal for R1, R2 and R3
+
+```{r,include=FALSE}
+#k=3 (Three componant trivariate normal)
+set.seed(23)
+out.cr_v2.k3=mvnormalmixEM(cr_v2, lambda = NULL, mu = NULL, sigma = NULL, k = 3,
+                           arbmean = TRUE, arbvar = TRUE, epsilon = 1e-08, 
+                           maxit = 10000, verb = FALSE)
+
+v2.k3.lambda=out.cr_v2.k3[2][[1]]
+v2.k3.mu1=out.cr_v2.k3[3][1][[1]][[1]]
+v2.k3.mu2=out.cr_v2.k3[3][1][[1]][[2]]
+v2.k3.mu3=out.cr_v2.k3[3][1][[1]][[3]]
+v2.k3.sigma1=out.cr_v2.k3[4][1][[1]][[1]]
+v2.k3.sigma2=out.cr_v2.k3[4][1][[1]][[2]]
+v2.k3.sigma3=out.cr_v2.k3[4][1][[1]][[3]]
+v2.k3.loglik=out.cr_v2.k3[5][[1]]
+v2.k3.BIC=BIC(v2.k3.loglik,98,29)
+```
+Mixing Proportions ($\lambda$) 
+```{r,echo=FALSE}
+
+v2.k3.lambda
+```
+###Component 1
+Expected Values 
+```{r,echo=FALSE}
+v2.k3.mu1
+```
+Variance-Covariance 
+```{r,echo=FALSE}
+v2.k3.sigma1
+```
+###Component 2
+Expected Values 
+```{r,echo=FALSE}
+v2.k3.mu2
+```
+Variance-Covariance 
+```{r,echo=FALSE}
+v2.k3.sigma2
+```
+###Component 3
+Expected Values 
+```{r,echo=FALSE}
+v2.k3.mu3
+```
+Variance-Covariance 
+```{r,echo=FALSE}
+v2.k3.sigma3
+```
+###Log Likelihhod
+```{r,echo=FALSE}
+v2.k3.loglik
+```
+###BIC
+```{r,echo=FALSE}
+v2.k3.BIC
+```
+## Four component trivariate normal for R1, R2 and R3
+```{r,include=FALSE}
+#k=4 (Four componant trivariate normal)
+set.seed(24)
+out.cr_v2.k4=mvnormalmixEM(cr_v2, lambda = NULL, mu = NULL, sigma = NULL, k = 4,
+                           arbmean = TRUE, arbvar = TRUE, epsilon = 1e-08, 
+                           maxit = 10000, verb = FALSE)
+
+v2.k4.lambda=out.cr_v2.k4[2][[1]]
+v2.k4.mu1=out.cr_v2.k4[3][1][[1]][[1]]
+v2.k4.mu2=out.cr_v2.k4[3][1][[1]][[2]]
+v2.k4.mu3=out.cr_v2.k4[3][1][[1]][[3]]
+v2.k4.mu4=out.cr_v2.k4[3][1][[1]][[4]]
+v2.k4.sigma1=out.cr_v2.k4[4][1][[1]][[1]]
+v2.k4.sigma2=out.cr_v2.k4[4][1][[1]][[2]]
+v2.k4.sigma3=out.cr_v2.k4[4][1][[1]][[3]]
+v2.k4.sigma4=out.cr_v2.k4[4][1][[1]][[4]]
+v2.k4.loglik=out.cr_v2.k4[5][[1]]
+v2.k4.BIC=BIC(v2.k4.loglik,98,39)
+```
+###Component 1
+Expected Values 
+```{r,echo=FALSE}
+v2.k4.mu1
+```
+Variance-Covariance 
+```{r,echo=FALSE}
+v2.k4.sigma1
+```
+###Component 2
+Expected Values 
+```{r,echo=FALSE}
+v2.k4.mu2
+```
+Variance-Covariance 
+```{r,echo=FALSE}
+v2.k4.sigma2
+```
+###Component 3
+Expected Values 
+```{r,echo=FALSE}
+v2.k4.mu3
+```
+Variance-Covariance 
+```{r,echo=FALSE}
+v2.k4.sigma3
+```
+###Component 4
+Expected Values 
+```{r,echo=FALSE}
+v2.k4.mu4
+```
+Variance-Covariance 
+```{r,echo=FALSE}
+v2.k4.sigma4
+```
+###Log Likelihhod
+```{r,echo=FALSE}
+v2.k4.loglik
+```
+###BIC
+```{r,echo=FALSE}
+v2.k4.BIC
+```
+## Five component trivariate normal for R1, R2 and R3
+```{r,include=FALSE}
+#k=5 (Five componant trivariate normal)
+set.seed(26)
+out.cr_v2.k5=mvnormalmixEM(cr_v2, lambda = NULL, mu = NULL, sigma = NULL, k = 5,
+                           arbmean = TRUE, arbvar = TRUE, epsilon = 1e-08, 
+                           maxit = 10000, verb = FALSE)
+
+v2.k5.lambda=out.cr_v2.k5[2][[1]]
+v2.k5.mu1=out.cr_v2.k5[3][1][[1]][[1]]
+v2.k5.mu2=out.cr_v2.k5[3][1][[1]][[2]]
+v2.k5.mu3=out.cr_v2.k5[3][1][[1]][[3]]
+v2.k5.mu4=out.cr_v2.k5[3][1][[1]][[4]]
+v2.k5.mu5=out.cr_v2.k5[3][1][[1]][[5]]
+v2.k5.sigma1=out.cr_v2.k5[4][1][[1]][[1]]
+v2.k5.sigma2=out.cr_v2.k5[4][1][[1]][[2]]
+v2.k5.sigma3=out.cr_v2.k5[4][1][[1]][[3]]
+v2.k5.sigma4=out.cr_v2.k5[4][1][[1]][[4]]
+v2.k5.sigma5=out.cr_v2.k5[4][1][[1]][[5]]
+v2.k5.loglik=out.cr_v2.k5[5][[1]]
+v2.k5.BIC=BIC(v2.k5.loglik,98,49)
+
+```
+Mixing Proportions ($\lambda$) 
+```{r,echo=FALSE}
+
+v2.k5.lambda
+```
+###Component 1
+
+Expected Values 
+```{r,echo=FALSE}
+v2.k5.mu1
+```
+Variance-Covariance 
+```{r,echo=FALSE}
+v2.k5.sigma1
+```
+###Component 2
+Expected Values 
+```{r,echo=FALSE}
+v2.k5.mu2
+```
+Variance-Covariance 
+```{r,echo=FALSE}
+v2.k5.sigma2
+```
+###Component 3
+Expected Values 
+```{r,echo=FALSE}
+v2.k5.mu3
+```
+Variance-Covariance 
+```{r,echo=FALSE}
+v2.k5.sigma3
+```
+###Component 4
+Expected Values 
+```{r,echo=FALSE}
+v2.k5.mu4
+```
+Variance-Covariance 
+```{r,echo=FALSE}
+v2.k5.sigma4
+```
+###Component 5
+Expected Values 
+```{r,echo=FALSE}
+v2.k5.mu5
+```
+Variance-Covariance 
+```{r,echo=FALSE}
+v2.k5.sigma5
+```
+###Log Likelihhod
+```{r,echo=FALSE}
+v2.k5.loglik
+```
+###BIC
+```{r,echo=FALSE}
+v2.k5.BIC
+```
+## Multivariate normal for R1, R2, R3 and R4
+```{r,include=FALSE}
+#k=1 (One componant tetravariate normal)
+library(mvtnorm)
+v3.sigma=cov(cr_v3)
+v3.mu=cbind(mean(cr_v3[,1]),mean(cr_v3[,2]),mean(cr_v3[,3]),mean(cr_v3[,4]))
+
+v3.tmp = mvtnorm::dmvnorm(cr_v3,v3.mu,v3.sigma,log=T)
+v3.k1.loglik=sum(v3.tmp)
+v3.k1.BIC=BIC(v3.k1.loglik,98,14)
+```
+Expected Values 
+```{r,echo=FALSE}
+v3.mu
+```
+Variance-Covariance 
+```{r,echo=FALSE}
+v3.sigma
+```
+###Log Likelihhod
+```{r,echo=FALSE}
+v3.k1.loglik
+```
+###BIC
+```{r,echo=FALSE}
+v3.k1.BIC
+```
+## Two component multivariate normal for R1, R2, R3 and R4
+```{r,include=FALSE}
+#k=2 (Two componant tetravariate normal)
+set.seed(4200)
+out.cr_v3.k2=mvnormalmixEM(cr_v3, lambda = NULL, mu = NULL, sigma = NULL, k = 2,
+                           arbmean = TRUE, arbvar = TRUE, epsilon = 1e-08, 
+                           maxit = 10000, verb = FALSE)
+
+v3.k2.lambda=out.cr_v3.k2[2][[1]]
+v3.k2.mu1=out.cr_v3.k2[3][1][[1]][[1]]
+v3.k2.mu2=out.cr_v3.k2[3][1][[1]][[2]]
+v3.k2.sigma1=out.cr_v3.k2[4][1][[1]][[1]]
+v3.k2.sigma2=out.cr_v3.k2[4][1][[1]][[2]]
+v3.k2.loglik=out.cr_v3.k2[5][[1]]
+v3.k2.BIC=BIC(v3.k2.loglik,98,29)
+```
+Mixing Proportions ($\lambda$) 
+```{r,echo=FALSE}
+
+v3.k2.lambda
+```
+###Component 1
+Expected Values 
+```{r,echo=FALSE}
+v3.k2.mu1
+```
+Variance-Covariance 
+```{r,echo=FALSE}
+v3.k2.sigma1
+```
+###Component 2
+Expected Values 
+```{r,echo=FALSE}
+v3.k2.mu2
+```
+Variance-Covariance 
+```{r,echo=FALSE}
+v3.k2.sigma2
+```
+###Log Likelihhod
+```{r,echo=FALSE}
+v3.k2.loglik
+```
+###BIC
+```{r,echo=FALSE}
+v3.k2.BIC
+```
+## Three component multivariate normal for R1, R2, R3 and R4
+```{r,include=FALSE}
+#k=3 (Three componant tetravariate normal)
+set.seed(33)
+out.cr_v3.k3=mvnormalmixEM(cr_v3, lambda = NULL, mu = NULL, sigma = NULL, k = 3,
+                           arbmean = TRUE, arbvar = TRUE, epsilon = 1e-08, 
+                           maxit = 10000, verb = FALSE)
+
+v3.k3.lambda=out.cr_v3.k3[2][[1]]
+v3.k3.mu1=out.cr_v3.k3[3][1][[1]][[1]]
+v3.k3.mu2=out.cr_v3.k3[3][1][[1]][[2]]
+v3.k3.mu3=out.cr_v3.k3[3][1][[1]][[3]]
+v3.k3.sigma1=out.cr_v3.k3[4][1][[1]][[1]]
+v3.k3.sigma2=out.cr_v3.k3[4][1][[1]][[2]]
+v3.k3.sigma3=out.cr_v3.k3[4][1][[1]][[3]]
+v3.k3.loglik=out.cr_v3.k3[5][[1]]
+v3.k3.BIC=BIC(v3.k3.loglik,98,44)
+
+```
+Mixing Proportions ($\lambda$) 
+```{r,echo=FALSE}
+
+v3.k3.lambda
+```
+###Component 1
+Expected Values 
+```{r,echo=FALSE}
+v3.k3.mu1
+```
+Variance-Covariance 
+```{r,echo=FALSE}
+v3.k3.sigma1
+```
+###Component 2
+Expected Values 
+```{r,echo=FALSE}
+v3.k3.mu2
+```
+Variance-Covariance 
+```{r,echo=FALSE}
+v3.k3.sigma2
+```
+###Component 3
+Expected Values 
+```{r,echo=FALSE}
+v3.k3.mu3
+```
+Variance-Covariance 
+```{r,echo=FALSE}
+v3.k3.sigma3
+```
+###Log Likelihhod
+```{r,echo=FALSE}
+v3.k3.loglik
+```
+###BIC
+```{r,echo=FALSE}
+v3.k3.BIC
+```
+## Four component multivariate normal for R1, R2, R3 and R4
+```{r,include=FALSE}
+#k=4 (Four componant tetravariate normal)
+set.seed(400)
+out.cr_v3.k4=mvnormalmixEM(cr_v3, lambda = NULL, mu = NULL, sigma = NULL, k = 4,
+                           arbmean = TRUE, arbvar = TRUE, epsilon = 1e-08, 
+                           maxit = 10000, verb = FALSE)
+
+
+v3.k4.lambda=out.cr_v3.k4[2][[1]]
+v3.k4.mu1=out.cr_v3.k4[3][1][[1]][[1]]
+v3.k4.mu2=out.cr_v3.k4[3][1][[1]][[2]]
+v3.k4.mu3=out.cr_v3.k4[3][1][[1]][[3]]
+v3.k4.mu4=out.cr_v3.k4[3][1][[1]][[4]]
+v3.k4.sigma1=out.cr_v3.k4[4][1][[1]][[1]]
+v3.k4.sigma2=out.cr_v3.k4[4][1][[1]][[2]]
+v3.k4.sigma3=out.cr_v3.k4[4][1][[1]][[3]]
+v3.k4.sigma4=out.cr_v3.k4[4][1][[1]][[4]]
+v3.k4.loglik=out.cr_v3.k4[5][[1]]
+v3.k4.BIC=BIC(v3.k4.loglik,98,59)
+```
+
+###Component 1
+Expected Values 
+```{r,echo=FALSE}
+v3.k4.mu1
+```
+Variance-Covariance 
+```{r,echo=FALSE}
+v3.k4.sigma1
+```
+###Component 2
+Expected Values 
+```{r,echo=FALSE}
+v3.k4.mu2
+```
+Variance-Covariance 
+```{r,echo=FALSE}
+v3.k4.sigma2
+```
+###Component 3
+Expected Values 
+```{r,echo=FALSE}
+v3.k4.mu3
+```
+Variance-Covariance 
+```{r,echo=FALSE}
+v3.k4.sigma3
+```
+###Component 4
+Expected Values 
+```{r,echo=FALSE}
+v3.k4.mu4
+```
+Variance-Covariance 
+```{r,echo=FALSE}
+v3.k4.sigma4
+```
+###Log Likelihhod
+```{r,echo=FALSE}
+v3.k4.loglik
+```
+###BIC
+```{r,echo=FALSE}
+v3.k4.BIC
+``` 
+
+## Five component multivariate normal for R1, R2, R3 and R4
+
+```{r,echo=FALSE}
+#k=5(Five componant tetravariate normal)
+set.seed(46)
+out.cr_v3.k5=mvnormalmixEM(cr_v3, lambda = NULL, mu = NULL, sigma = NULL, k = 5,
+                           arbmean = TRUE, arbvar = TRUE, epsilon = 1e-08, 
+                           maxit = 10000, verb = FALSE)
+v3.k5.lambda=out.cr_v3.k5[2][[1]]
+v3.k5.mu1=out.cr_v3.k5[3][1][[1]][[1]]
+v3.k5.mu2=out.cr_v3.k5[3][1][[1]][[2]]
+v3.k5.mu3=out.cr_v3.k5[3][1][[1]][[3]]
+v3.k5.mu4=out.cr_v3.k5[3][1][[1]][[4]]
+v3.k5.mu5=out.cr_v3.k5[3][1][[1]][[5]]
+v3.k5.sigma1=out.cr_v3.k5[4][1][[1]][[1]]
+v3.k5.sigma2=out.cr_v3.k5[4][1][[1]][[2]]
+v3.k5.sigma3=out.cr_v3.k5[4][1][[1]][[3]]
+v3.k5.sigma4=out.cr_v3.k5[4][1][[1]][[4]]
+v3.k5.sigma5=out.cr_v3.k5[4][1][[1]][[5]]
+v3.k5.loglik=out.cr_v3.k5[5][[1]]
+v3.k5.BIC=BIC(v3.k5.loglik,98,74)
+```
+###Component 1
+Expected Values 
+```{r,echo=FALSE}
+v3.k5.mu1
+```
+Variance-Covariance 
+```{r,echo=FALSE}
+v3.k5.sigma1
+```
+###Component 2
+Expected Values 
+```{r,echo=FALSE}
+v3.k5.mu2
+```
+Variance-Covariance 
+```{r,echo=FALSE}
+v3.k5.sigma2
+```
+###Component 3
+Expected Values 
+```{r,echo=FALSE}
+v3.k5.mu3
+```
+Variance-Covariance 
+```{r,echo=FALSE}
+v3.k5.sigma3
+```
+###Component 4
+Expected Values 
+```{r,echo=FALSE}
+v3.k5.mu4
+```
+Variance-Covariance 
+```{r,echo=FALSE}
+v3.k5.sigma4
+```
+###Component 5
+Expected Values 
+```{r,echo=FALSE}
+v3.k5.mu5
+```
+Variance-Covariance 
+```{r,echo=FALSE}
+v3.k5.sigma5
+```
+###Log Likelihhod
+```{r,echo=FALSE}
+v3.k5.loglik
+```
+###BIC
+```{r,echo=FALSE}
+v3.k5.BIC
+```
+###BIC summary 
+```{r,echo=FALSE}
+BIC1=rbind(v1.k1.BIC,v1.k2.BIC,v1.k3.BIC,v1.k4.BIC,v1.k5.BIC)
+BIC2=rbind(v2.k1.BIC, v2.k2.BIC,v2.k3.BIC,v2.k4.BIC,v2.k5.BIC)
+BIC3=rbind(v3.k1.BIC, v3.k2.BIC,v3.k3.BIC,v3.k4.BIC,v3.k5.BIC)
+BIC=cbind(BIC1,BIC2,BIC3)
+colnames(BIC)=c("R1+R2", "R1+R2+R3", "R1+R2+R3+R4")
+rownames(BIC)=c("K=1", "K=2","K=3","K=4","K=5")
+```
+```{r, echo=FALSE}
+library(knitr)
+kable(BIC)
+```
