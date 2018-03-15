@@ -15,18 +15,18 @@ Hoben <- read.table("Hoben.txt",header=T)
 
 #*******ratio between the second trial(age x+ of the kid) and the first trial(age x of the kid is considered*********#
 
-#ration between first time look
+#ration between first time look(Ratio 1)
 x1 <- Hoben[,15]/Hoben[,4] #Produces results in favor of fixed alpha
 x1a=x1^1/3
 
-#ratio between Second time look
+#ratio between Second time look(Ratio 2)
 x2 <- Hoben[,16]/Hoben[,5]
 
 
-#ratio between Third time look
+#ratio between Third time look(Ratio 3)
 x3 <- Hoben[,17]/Hoben[,6]
 
-#ratio between Fourth time look
+#ratio between Fourth time look(Ratio 4)
 x4 <- Hoben[,18]/Hoben[,7]
 
 v1=cbind(x1,x2)
@@ -40,7 +40,7 @@ cr_v3=v3^1/3
 
 BIC=function(ll,n,npar) -2*ll+log(n)*npar
 ```
-## Bivariate normal for Ratio 1 and Ratio 2
+## Bivariate normal for cubic root Ratio 1 and Ratio 2
 ```{r,include=FALSE}
 #k=1(one componant bivariate normal)
 library(mvtnorm)
@@ -69,7 +69,7 @@ v1.k1.loglik
 ```{r,echo=FALSE}
 v1.k1.BIC
 ```
-## Two component bivariate normal for Ratio 1 and Ratio 2
+## Two component bivariate normal for cubic root Ratio 1 and Ratio 2
 
 ```{r,include=FALSE}
 #k=2 (Two componant bivariate normal)
@@ -119,7 +119,7 @@ v1.k2.loglik
 v1.k2.BIC
 ```
 
-## Three component bivariate normal for Ratio 1 and Ratio 2
+## Three component bivariate normal for cubic root Ratio 1 and Ratio 2
 ```{r,include=FALSE}
 #k=3 (Three componant bivariate normal)
 set.seed(13)
@@ -179,7 +179,7 @@ v1.k3.loglik
 ```{r,echo=FALSE}
 v1.k3.BIC
 ```
-##Four component bivariate normal for Ratio 1 and Ratio 2
+##Four component bivariate normal for cubic root Ratio 1 and Ratio 2
 
 ```{r,include=FALSE}
 #k=4 (Four componant bivariate normal)
@@ -251,7 +251,7 @@ v1.k4.loglik
 ```{r,echo=FALSE}
 v1.k4.BIC
 ```
-## Five component bivariate normal for Ratio 1 and Ratio 2
+## Five component bivariate normal for cubic root Ratio 1 and Ratio 2
 ```{r,include=FALSE}
 #k=5 (Five componant bivariate normal)
 set.seed(16)
@@ -333,7 +333,7 @@ v1.k5.loglik
 ```{r,echo=FALSE}
 v1.k5.BIC
 ```
-## Trivariate normal for Ratio 1, Ratio 2, and Ratio 3
+## Trivariate normal for cubic root Ratio 1, Ratio 2, and Ratio 3
 ```{r,include=FALSE}
 #k=1 (One componant trivariate normal)
 library(mvtnorm)
@@ -361,7 +361,7 @@ v2.k1.loglik
 v2.k1.BIC
 ```
 
-## Two component trivariate normal for Ratio 1, Ratio 2, and Ratio 3
+## Two component trivariate normal for cubic root Ratio 1, Ratio 2, and Ratio 3
 
 ```{r,include=FALSE}
  #k=2 (Two componant trivariate normal)
@@ -411,7 +411,7 @@ v2.k2.loglik
 ```{r,echo=FALSE}
 v2.k2.BIC
 ```
-## Three component trivariate normal for Ratio 1, Ratio 2, and Ratio 3
+## Three component trivariate normal for cubic root Ratio 1, Ratio 2, and Ratio 3
 
 ```{r,include=FALSE}
 #k=3 (Three componant trivariate normal)
@@ -470,7 +470,7 @@ v2.k3.loglik
 ```{r,echo=FALSE}
 v2.k3.BIC
 ```
-## Four component trivariate normal for Ratio 1, Ratio 2, and Ratio 3
+## Four component trivariate normal for cubic root Ratio 1, Ratio 2, and Ratio 3
 ```{r,include=FALSE}
 #k=4 (Four componant trivariate normal)
 set.seed(24)
@@ -534,7 +534,7 @@ v2.k4.loglik
 ```{r,echo=FALSE}
 v2.k4.BIC
 ```
-## Five component trivariate normal for Ratio 1, Ratio 2, and Ratio 3
+## Five component trivariate normal for cubic root Ratio 1, Ratio 2, and Ratio 3
 ```{r,include=FALSE}
 #k=5 (Five componant trivariate normal)
 set.seed(26)
@@ -616,7 +616,7 @@ v2.k5.loglik
 ```{r,echo=FALSE}
 v2.k5.BIC
 ```
-## Multivariate normal for Ratio 1, Ratio 2, and Ratio 3 and Ratio 4
+## Multivariate normal for cubic root Ratio 1, Ratio 2, Ratio 3 and Ratio 4
 ```{r,include=FALSE}
 #k=1 (One componant tetravariate normal)
 library(mvtnorm)
@@ -643,7 +643,7 @@ v3.k1.loglik
 ```{r,echo=FALSE}
 v3.k1.BIC
 ```
-## Two component multivariate normal for Ratio 1, Ratio 2, and Ratio 3 and Ratio 4
+## Two component multivariate normal for cubic root Ratio 1, Ratio 2, Ratio 3 and Ratio 4
 ```{r,include=FALSE}
 #k=2 (Two componant tetravariate normal)
 set.seed(4200)
@@ -690,7 +690,7 @@ v3.k2.loglik
 ```{r,echo=FALSE}
 v3.k2.BIC
 ```
-## Three component multivariate normal for Ratio 1, Ratio 2, and Ratio 3 and Ratio 4
+## Three component multivariate normal for cubic root Ratio 1, Ratio 2, Ratio 3 and Ratio 4
 ```{r,include=FALSE}
 #k=3 (Three componant tetravariate normal)
 set.seed(33)
@@ -749,7 +749,7 @@ v3.k3.loglik
 ```{r,echo=FALSE}
 v3.k3.BIC
 ```
-## Four component multivariate normal for Ratio 1, Ratio 2, and Ratio 3 and Ratio 4
+## Four component multivariate normal for cubic root Ratio 1, Ratio 2, Ratio 3 and Ratio 4
 ```{r,include=FALSE}
 #k=4 (Four componant tetravariate normal)
 set.seed(400)
@@ -816,7 +816,7 @@ v3.k4.loglik
 v3.k4.BIC
 ``` 
 
-## Five component multivariate normal for Ratio 1, Ratio 2, and Ratio 3 and Ratio 4
+## Five component multivariate normal for cubic root Ratio 1, Ratio 2, Ratio 3 and Ratio 4
 
 ```{r,echo=FALSE}
 #k=5(Five componant tetravariate normal)
