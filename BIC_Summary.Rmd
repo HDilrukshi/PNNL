@@ -1,0 +1,314 @@
+---
+title: "BIC Summary"
+output: word_document
+---
+
+```{r setup, include=FALSE}
+setwd("/Users/Dil/Documents/Fall_2017/Research/psyco project")
+
+library(mixtools)
+library(fitdistrplus)
+source("gammamixEMnew.R")
+Hoben <- read.table("Hoben.txt",header=T)
+
+#Calculating time ration between two visits
+#first time look
+x1 <- Hoben[,15]/Hoben[,4] 
+
+
+#Second time look
+x2 <- Hoben[,16]/Hoben[,5]
+
+
+#Third time look
+x3 <- Hoben[,17]/Hoben[,6]
+
+#Fourth time look
+x4 <- Hoben[,18]/Hoben[,7]
+
+#5th
+x5 <- Hoben[,19]/Hoben[,8]
+
+#6th
+x6 <- Hoben[,20]/Hoben[,9]
+
+#7th
+x7 <- Hoben[,21]/Hoben[,10]
+
+#8th
+x8 <- Hoben[,22]/Hoben[,11]
+
+#9th
+x9 <- Hoben[,23]/Hoben[,12]
+
+#10th
+x10 <- Hoben[,24]/Hoben[,13]
+
+#11th
+x11 <- Hoben[,25]/Hoben[,14]
+
+
+######BIC Calculations######
+
+#n=sample size#
+n <- length(x1)
+
+#Define the function to calculate BIC##
+BIC.fn <- function(ll,n,npar) -2*ll+log(n)*npar 
+
+#Functions to extract loglikelihood values
+
+##Normal Dist.##
+out.norm1=function(x) sum(dnorm(x,mean(x),sd(x),log=T)) #sum of the log(density value)
+##Gamma Dist##
+out.gam1 <- function (x) logLik(fitdist(x,"gamma")) #loglik:Extracts the estimated log-likelihood from the "fitdist" object, Fit of univariate distributions to non-censored data; fitdist:fit gamma distribution to x
+##Mixed Gamma##
+out.gam2 <- function (x) gammamixEM.new(x,k=2,maxit=20000)
+##Mixed GAmma(with fixed alpha)##
+out.gam2fix <- function(x) gammamixEM.new(x,k=2,maxit=20000,fix.alpha=TRUE)
+
+####First time look####
+#######################
+
+##Fit normal##
+set.seed(11)
+x1.out.norm1 <-out.norm1(x1)
+##Fit Gamma##
+set.seed(12)
+x1.out.gam1 <- out.gam1(x1) #loglik:Extracts the estimated log-likelihood from the "fitdist" object, Fit of univariate distributions to non-censored data; fitdist:fit gamma distribution to x
+##Fit mixed gamma##
+set.seed(13)
+x1.out.gam2 <- out.gam2(x1)
+##Fit mixed gamma with fixed alpha##
+set.seed(14)
+x1.out.gam2fix <- out.gam2fix(x1)
+
+x1.BIC=cbind(BIC.fn(x1.out.norm1,n,2),
+BIC.fn(x1.out.gam1,n,2),
+BIC.fn(x1.out.gam2$loglik,n,5),
+BIC.fn(x1.out.gam2fix$loglik,n,4))
+
+####Second time look####
+#######################
+
+##Fit normal##
+set.seed(21)
+x2.out.norm1 <-out.norm1(x2)
+##Fit Gamma##
+set.seed(22)
+x2.out.gam1 <- out.gam1(x2) #loglik:Extracts the estimated log-likelihood from the "fitdist" object, Fit of univariate distributions to non-censored data; fitdist:fit gamma distribution to x
+##Fit mixed gamma##
+set.seed(23)
+x2.out.gam2 <- out.gam2(x2)
+##Fit mixed gamma with fixed alpha##
+set.seed(24)
+x2.out.gam2fix <- out.gam2fix(x2)
+
+x2.BIC=cbind(BIC.fn(x2.out.norm1,n,2),
+BIC.fn(x2.out.gam1,n,2),
+BIC.fn(x2.out.gam2$loglik,n,5),
+BIC.fn(x2.out.gam2fix$loglik,n,4))
+
+####Third time look####
+#######################
+
+##Fit normal##
+set.seed(31)
+x3.out.norm1 <-out.norm1(x3)
+##Fit Gamma##
+set.seed(32)
+x3.out.gam1 <- out.gam1(x3) #loglik:Extracts the estimated log-likelihood from the "fitdist" object, Fit of univariate distributions to non-censored data; fitdist:fit gamma distribution to x
+##Fit mixed gamma##
+set.seed(33)
+x3.out.gam2 <- out.gam2(x3)
+##Fit mixed gamma with fixed alpha##
+set.seed(34)
+x3.out.gam2fix <- out.gam2fix(x3)
+
+x3.BIC=cbind(BIC.fn(x3.out.norm1,n,2),
+BIC.fn(x3.out.gam1,n,2),
+BIC.fn(x3.out.gam2$loglik,n,5),
+BIC.fn(x3.out.gam2fix$loglik,n,4))
+
+
+####Fourth time look####
+########################
+
+##Fit normal##
+set.seed(41)
+x4.out.norm1 <-out.norm1(x4)
+##Fit Gamma##
+set.seed(42)
+x4.out.gam1 <- out.gam1(x4) #loglik:Extracts the estimated log-likelihood from the "fitdist" object, Fit of univariate distributions to non-censored data; fitdist:fit gamma distribution to x
+##Fit mixed gamma##
+set.seed(43)
+x4.out.gam2 <- out.gam2(x4)
+##Fit mixed gamma with fixed alpha##
+set.seed(44)
+x4.out.gam2fix <- out.gam2fix(x4)
+
+x4.BIC=cbind(BIC.fn(x4.out.norm1,n,2),
+BIC.fn(x4.out.gam1,n,2),
+BIC.fn(x4.out.gam2$loglik,n,5),
+BIC.fn(x4.out.gam2fix$loglik,n,4))
+
+
+####Fifth time look#####
+########################
+
+##Fit normal##
+set.seed(51)
+x5.out.norm1 <-out.norm1(x5)
+##Fit Gamma##
+set.seed(52)
+x5.out.gam1 <- out.gam1(x5) #loglik:Extracts the estimated log-likelihood from the "fitdist" object, Fit of univariate distributions to non-censored data; fitdist:fit gamma distribution to x
+##Fit mixed gamma##
+set.seed(53)
+x5.out.gam2 <- out.gam2(x5)
+##Fit mixed gamma with fixed alpha##
+set.seed(54)
+x5.out.gam2fix <- out.gam2fix(x5)
+
+x5.BIC=cbind(BIC.fn(x5.out.norm1,n,2),
+BIC.fn(x5.out.gam1,n,2),
+BIC.fn(x5.out.gam2$loglik,n,5),
+BIC.fn(x5.out.gam2fix$loglik,n,4))
+
+####Sixth time look#####
+########################
+
+##Fit normal##
+set.seed(61)
+x6.out.norm1 <-out.norm1(x6)
+##Fit Gamma##
+set.seed(62)
+x6.out.gam1 <- out.gam1(x6) #loglik:Extracts the estimated log-likelihood from the "fitdist" object, Fit of univariate distributions to non-censored data; fitdist:fit gamma distribution to x
+##Fit mixed gamma##
+set.seed(63)
+x6.out.gam2 <- out.gam2(x6)
+##Fit mixed gamma with fixed alpha##
+set.seed(64)
+x6.out.gam2fix <- out.gam2fix(x6)
+
+x6.BIC=cbind(BIC.fn(x6.out.norm1,n,2),
+BIC.fn(x6.out.gam1,n,2),
+BIC.fn(x6.out.gam2$loglik,n,5),
+BIC.fn(x6.out.gam2fix$loglik,n,4))
+
+####Seventh time look#####
+########################
+
+##Fit normal##
+set.seed(71)
+x7.out.norm1 <-out.norm1(x7)
+##Fit Gamma##
+set.seed(72)
+x7.out.gam1 <- out.gam1(x7) #loglik:Extracts the estimated log-likelihood from the "fitdist" object, Fit of univariate distributions to non-censored data; fitdist:fit gamma distribution to x
+##Fit mixed gamma##
+set.seed(73)
+x7.out.gam2 <- out.gam2(x7)
+##Fit mixed gamma with fixed alpha##
+set.seed(74)
+x7.out.gam2fix <- out.gam2fix(x7)
+
+x7.BIC=cbind(BIC.fn(x7.out.norm1,n,2),
+BIC.fn(x7.out.gam1,n,2),
+BIC.fn(x7.out.gam2$loglik,n,5),
+BIC.fn(x7.out.gam2fix$loglik,n,4))
+
+####Eighth time look#####
+########################
+
+##Fit normal##
+set.seed(81)
+x8.out.norm1 <-out.norm1(x8)
+##Fit Gamma##
+set.seed(82)
+x8.out.gam1 <- out.gam1(x8) #loglik:Extracts the estimated log-likelihood from the "fitdist" object, Fit of univariate distributions to non-censored data; fitdist:fit gamma distribution to x
+##Fit mixed gamma##
+set.seed(83)
+x8.out.gam2 <- out.gam2(x8)
+##Fit mixed gamma with fixed alpha##
+set.seed(84)
+x8.out.gam2fix <- out.gam2fix(x8)
+
+x8.BIC=cbind(BIC.fn(x8.out.norm1,n,2),
+BIC.fn(x8.out.gam1,n,2),
+BIC.fn(x8.out.gam2$loglik,n,5),
+BIC.fn(x8.out.gam2fix$loglik,n,4))
+
+####Ninth time look#####
+########################
+
+##Fit normal##
+set.seed(91)
+x9.out.norm1 <-out.norm1(x9)
+##Fit Gamma##
+set.seed(92)
+x9.out.gam1 <- out.gam1(x9) #loglik:Extracts the estimated log-likelihood from the "fitdist" object, Fit of univariate distributions to non-censored data; fitdist:fit gamma distribution to x
+##Fit mixed gamma##
+set.seed(93)
+x9.out.gam2 <- out.gam2(x9)
+##Fit mixed gamma with fixed alpha##
+set.seed(94)
+x9.out.gam2fix <- out.gam2fix(x9)
+
+x9.BIC=cbind(BIC.fn(x9.out.norm1,n,2),
+BIC.fn(x9.out.gam1,n,2),
+BIC.fn(x9.out.gam2$loglik,n,5),
+BIC.fn(x9.out.gam2fix$loglik,n,4))
+
+####Tenth time look#####
+########################
+
+##Fit normal##
+set.seed(101)
+x10.out.norm1 <-out.norm1(x10)
+##Fit Gamma##
+set.seed(102)
+x10.out.gam1 <- out.gam1(x10) #loglik:Extracts the estimated log-likelihood from the "fitdist" object, Fit of univariate distributions to non-censored data; fitdist:fit gamma distribution to x
+##Fit mixed gamma##
+set.seed(103)
+x10.out.gam2 <- out.gam2(x10)
+##Fit mixed gamma with fixed alpha##
+set.seed(104)
+x10.out.gam2fix <- out.gam2fix(x10)
+
+x10.BIC=cbind(BIC.fn(x10.out.norm1,n,2),
+BIC.fn(x10.out.gam1,n,2),
+BIC.fn(x10.out.gam2$loglik,n,5),
+BIC.fn(x10.out.gam2fix$loglik,n,4))
+
+####Tenth time look#####
+########################
+
+##Fit normal##
+set.seed(111)
+x11.out.norm1 <-out.norm1(x11)
+##Fit Gamma##
+set.seed(112)
+x11.out.gam1 <- out.gam1(x11) #loglik:Extracts the estimated log-likelihood from the "fitdist" object, Fit of univariate distributions to non-censored data; fitdist:fit gamma distribution to x
+##Fit mixed gamma##
+set.seed(113)
+x11.out.gam2 <- out.gam2(x11)
+##Fit mixed gamma with fixed alpha##
+set.seed(114)
+x11.out.gam2fix <- out.gam2fix(x11)
+
+x11.BIC=cbind(BIC.fn(x11.out.norm1,n,2),
+BIC.fn(x11.out.gam1,n,2),
+BIC.fn(x11.out.gam2$loglik,n,5),
+BIC.fn(x11.out.gam2fix$loglik,n,4))
+
+BIC.summary=rbind(x1.BIC,x2.BIC,x3.BIC,x4.BIC,x5.BIC,x6.BIC,x7.BIC,x8.BIC,x9.BIC,x10.BIC,x11.BIC)
+colnames(BIC.summary)=c("Normal", "Gamma", "Mixed Gamma", "Mixed Gamma with Fixed Alpha")
+rownames(BIC.summary)=c("First Trial", "Second Trial","Third Trial","Fourth Trial","Fifth Trial", "Sixth Trial", "Seventh Trial", "Eighth Trial", "Ninth Trial", "Tenth Trial", "Eleventh Trial")
+```
+
+```{r, echo=FALSE}
+library(knitr)
+kable(BIC.summary)
+```
+
+
+

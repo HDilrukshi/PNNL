@@ -1,0 +1,161 @@
+---
+title: "Condition 7"
+output:
+  pdf_document: default
+  html_document: default
+  word_document: default
+always_allow_html: yes
+---
+
+```{r, echo=FALSE,warning=FALSE}
+load("/Users/Dil/Documents/Fall_2017/Research/7_100.Rd")
+load("/Users/Dil/Documents/Fall_2017/Research/7_250.Rd")
+load("/Users/Dil/Documents/Fall_2017/Research/7_500.Rd")
+
+x1=out_7_100_1
+y1=out_7_100_2
+x2<- out_7_250_1
+y2<-out_7_250_2
+x3=out_7_500_1
+y3=out_7_500_2
+
+
+size=c(100,100,250,250,500,500)
+
+mom.start=c("True", "False", "True", "False","True", "False")
+
+B=5000
+
+####Mean square errors under condition 7-Aproach 1,n=100
+MSE.x1.alpha1=mean(sapply(1:B, function(i) (x1[[i]][1,1]-alpha[1])^2))
+MSE.x1.alpha2=mean(sapply(1:B, function(i) (x1[[i]][1,2]-alpha[3])^2))
+MSE.x1.alpha3=mean(sapply(1:B, function(i) (x1[[i]][1,3]-alpha[2])^2))
+
+x1.alpha=cbind(MSE.x1.alpha1,MSE.x1.alpha2,MSE.x1.alpha3)
+
+MSE.x1.beta1=mean(sapply(1:B, function(i) ((x1[[i]][2,1]-1/beta[1])^2)))
+MSE.x1.beta2=mean(sapply(1:B, function(i) ((x1[[i]][2,2]-1/beta[3])^2)))
+MSE.x1.beta3=mean(sapply(1:B, function(i) ((x1[[i]][2,3]-1/beta[2])^2)))
+x1.beta=cbind(MSE.x1.beta1,MSE.x1.beta2,MSE.x1.beta3)
+
+MSE.x1.lambda1=mean(sapply(1:B, function(i) (x1[[i]][3,1]-lambda[1])^2))
+MSE.x1.lambda2=mean(sapply(1:B, function(i) (x1[[i]][3,2]-lambda[3])^2))
+MSE.x1.lambda3=mean(sapply(1:B, function(i) (x1[[i]][3,3]-lambda[2])^2))
+x1.lambda=cbind(MSE.x1.lambda1,MSE.x1.lambda2)
+
+
+
+x1.para=cbind(x1.alpha,x1.beta,x1.lambda)
+
+
+####Mean square errors under condition 7-Aproach 2,n=100
+
+MSE.y1.alpha1=mean(sapply(1:B, function(i) (y1[[i]][1,1]-alpha[1])^2))
+MSE.y1.alpha2=mean(sapply(1:B, function(i) (y1[[i]][1,2]-alpha[3])^2))
+MSE.y1.alpha3=mean(sapply(1:B, function(i) (y1[[i]][1,3]-alpha[2])^2))
+y1.alpha=cbind(MSE.y1.alpha1,MSE.y1.alpha2,MSE.y1.alpha3)
+
+MSE.y1.beta1=mean(sapply(1:B, function(i) (y1[[i]][2,1]-1/beta[1])^2))
+MSE.y1.beta2=mean(sapply(1:B, function(i) (y1[[i]][2,2]-1/beta[3])^2))
+MSE.y1.beta3=mean(sapply(1:B, function(i) (y1[[i]][2,3]-1/beta[2])^2))
+y1.beta=cbind(MSE.y1.beta1,MSE.y1.beta2,MSE.y1.beta3)
+
+MSE.y1.lambda1=mean(sapply(1:B, function(i) (y1[[i]][3,1]-lambda[1])^2))
+MSE.y1.lambda2=mean(sapply(1:B, function(i) (y1[[i]][3,2]-lambda[3])^2))
+MSE.y1.lambda3=mean(sapply(1:B, function(i) (y1[[i]][3,3]-lambda[2])^2))
+y1.lambda=cbind(MSE.y1.lambda1,MSE.y1.lambda2)
+
+y1.para=cbind(y1.alpha,y1.beta,y1.lambda)
+
+
+####Mean square errors under condition 7-Aproach 1,n=250
+MSE.x2.alpha1=mean(sapply(1:B, function(i) (x2[[i]][1,1]-alpha[1])^2))
+MSE.x2.alpha2=mean(sapply(1:B, function(i) (x2[[i]][1,2]-alpha[3])^2))
+MSE.x2.alpha3=mean(sapply(1:B, function(i) (x2[[i]][1,3]-alpha[2])^2))
+x2.alpha=cbind(MSE.x2.alpha1,MSE.x2.alpha2,MSE.x2.alpha3)
+
+MSE.x2.beta1=mean(sapply(1:B, function(i) (x2[[i]][2,1]-1/beta[1])^2))
+MSE.x2.beta2=mean(sapply(1:B, function(i) (x2[[i]][2,2]-1/beta[3])^2))
+MSE.x2.beta3=mean(sapply(1:B, function(i) (x2[[i]][2,3]-1/beta[2])^2))
+x2.beta=cbind(MSE.x2.beta1,MSE.x2.beta2,MSE.x2.beta3)
+
+MSE.x2.lambda1=mean(sapply(1:B, function(i) (x2[[i]][3,1]-lambda[1])^2))
+MSE.x2.lambda2=mean(sapply(1:B, function(i) (x2[[i]][3,2]-lambda[3])^2))
+MSE.x2.lambda3=mean(sapply(1:B, function(i) (x2[[i]][3,3]-lambda[2])^2))
+x2.lambda=cbind(MSE.x2.lambda1,MSE.x2.lambda2)
+
+x2.para=cbind(x2.alpha,x2.beta,x2.lambda)
+
+
+####Mean square errors under condition 7-Aproach 2,n=250
+
+MSE.y2.alpha1=mean(sapply(1:B, function(i) (y2[[i]][1,1]-alpha[1])^2))
+MSE.y2.alpha2=mean(sapply(1:B, function(i) (y2[[i]][1,2]-alpha[3])^2))
+MSE.y2.alpha3=mean(sapply(1:B, function(i) (y2[[i]][1,3]-alpha[2])^2))
+y2.alpha=cbind(MSE.y2.alpha1,MSE.y2.alpha2,MSE.y2.alpha3)
+
+MSE.y2.beta1=mean(sapply(1:B, function(i) (y2[[i]][2,1]-1/beta[1])^2))
+MSE.y2.beta2=mean(sapply(1:B, function(i) (y2[[i]][2,2]-1/beta[3])^2))
+MSE.y2.beta3=mean(sapply(1:B, function(i) (y2[[i]][2,3]-1/beta[2])^2))
+y2.beta=cbind(MSE.y2.beta1,MSE.y2.beta2,MSE.y2.beta3)
+
+MSE.y2.lambda1=mean(sapply(1:B, function(i) (y2[[i]][3,1]-lambda[1])^2))
+MSE.y2.lambda2=mean(sapply(1:B, function(i) (y2[[i]][3,2]-lambda[3])^2))
+MSE.y2.lambda3=mean(sapply(1:B, function(i) (y2[[i]][3,3]-lambda[2])^2))
+y2.lambda=cbind(MSE.y2.lambda1,MSE.y2.lambda2)
+
+y2.para=cbind(y2.alpha,y2.beta, y2.lambda)
+
+####Mean square errors under condition 7-Aproach 1,n=500
+MSE.x3.alpha1=mean(sapply(1:B, function(i) (x3[[i]][1,1]-alpha[1])^2))
+MSE.x3.alpha2=mean(sapply(1:B, function(i) (x3[[i]][1,2]-alpha[3])^2))
+MSE.x3.alpha3=mean(sapply(1:B, function(i) (x3[[i]][1,3]-alpha[2])^2))
+
+x3.alpha=cbind(MSE.x3.alpha1,MSE.x3.alpha2,MSE.x3.alpha3)
+
+MSE.x3.beta1=mean(sapply(1:B, function(i) (x3[[i]][2,1]-1/beta[1])^2))
+MSE.x3.beta2=mean(sapply(1:B, function(i) (x3[[i]][2,2]-1/beta[3])^2))
+MSE.x3.beta3=mean(sapply(1:B, function(i) (x3[[i]][2,3]-1/beta[2])^2))
+
+x3.beta=cbind(MSE.x3.beta1,MSE.x3.beta2,MSE.x3.beta3)
+
+MSE.x3.lambda1=mean(sapply(1:B, function(i) (x3[[i]][3,1]-lambda[1])^2))
+MSE.x3.lambda2=mean(sapply(1:B, function(i) (x3[[i]][3,2]-lambda[3])^2))
+MSE.x3.lambda3=mean(sapply(1:B, function(i) (x3[[i]][3,3]-lambda[2])^2))
+x3.lambda=cbind(MSE.x3.lambda1,MSE.x3.lambda2)
+
+x3.para=cbind(x3.alpha,x3.beta,x3.lambda)
+
+
+####Mean square errors under condition 7-Aproach 2,n=500
+
+MSE.y3.alpha1=mean(sapply(1:B, function(i) (y3[[i]][1,1]-alpha[1])^2))
+MSE.y3.alpha2=mean(sapply(1:B, function(i) (y3[[i]][1,2]-alpha[3])^2))
+MSE.y3.alpha3=mean(sapply(1:B, function(i) (y3[[i]][1,3]-alpha[2])^2))
+y3.alpha=cbind(MSE.y3.alpha1,MSE.y3.alpha2,MSE.y3.alpha3)
+
+MSE.y3.beta1=mean(sapply(1:B, function(i) (y3[[i]][2,1]-1/beta[1])^2))
+MSE.y3.beta2=mean(sapply(1:B, function(i) (y3[[i]][2,2]-1/beta[3])^2))
+MSE.y3.beta3=mean(sapply(1:B, function(i) (y3[[i]][2,3]-1/beta[2])^2))
+y3.beta=cbind(MSE.y3.beta1,MSE.y3.beta2,MSE.y3.beta3)
+
+MSE.y3.lambda1=mean(sapply(1:B, function(i) (y3[[i]][3,1]-lambda[1])^2))
+MSE.y3.lambda2=mean(sapply(1:B, function(i) (y3[[i]][3,2]-lambda[3])^2))
+MSE.y3.lambda3=mean(sapply(1:B, function(i) (y3[[i]][3,3]-lambda[2])^2))
+
+y3.lambda=cbind(MSE.y3.lambda1,MSE.y3.lambda2)
+
+
+y3.para=cbind(y3.alpha,y3.beta,y3.lambda)
+
+
+para=round(rbind(x1.para,x2.para,y1.para,y2.para,x3.para,y3.para),3)
+condition1=cbind(size,mom.start,para)
+colnames(condition1)=c("Size","Mom.Start","Alpha1","Alpha2","Alpha3","Beta1","Beta2","Beta3", "Lambda1","Lambda2")
+```
+# Mean square error of estimates (Ordering based on sample means)  
+
+```{r, echo=FALSE}
+library(knitr)
+knitr::kable(condition1,align="r")
+```
